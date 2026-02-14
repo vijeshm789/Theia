@@ -13,9 +13,6 @@ class AppConstants {
   static const String metalPriceApiKey = '4019bd580849f63c0354fe6cca292e7e';
   static const String newsApiKey = '610f5606fdbb417696f09c3f617ee921';
 
-  // Gemini AI (free tier — 15 RPM / 1M tokens per day)
-  static const String geminiApiKey = 'YOUR_GEMINI_API_KEY';
-
   // Shopify Storefront API
   static const String shopifyStoreDomain = 'YOUR_STORE.myshopify.com';
   static const String shopifyStorefrontAccessToken = 'YOUR_STOREFRONT_ACCESS_TOKEN';
