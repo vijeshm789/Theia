@@ -13,7 +13,7 @@ class MetalPriceProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool _isHistoryLoading = false;
   String? _error;
-  String _selectedTimeRange = '1M';
+  String _selectedTimeRange = '7D';
   String _selectedMetal = AppConstants.gold;
   DateTime? _lastUpdated;
   Timer? _autoRefreshTimer;
@@ -38,30 +38,22 @@ class MetalPriceProvider extends ChangeNotifier {
   String get selectedMetal => _selectedMetal;
   DateTime? get lastUpdated => _lastUpdated;
 
-  MetalPrice? get gold24k => _prices
-      .cast<MetalPrice?>()
-      .firstWhere(
+  MetalPrice? get gold24k => _prices.cast<MetalPrice?>().firstWhere(
         (p) => p!.metal == AppConstants.gold && p.karat == AppConstants.gold24k,
         orElse: () => null,
       );
 
-  MetalPrice? get gold22k => _prices
-      .cast<MetalPrice?>()
-      .firstWhere(
+  MetalPrice? get gold22k => _prices.cast<MetalPrice?>().firstWhere(
         (p) => p!.metal == AppConstants.gold && p.karat == AppConstants.gold22k,
         orElse: () => null,
       );
 
-  MetalPrice? get silverPerGram => _prices
-      .cast<MetalPrice?>()
-      .firstWhere(
+  MetalPrice? get silverPerGram => _prices.cast<MetalPrice?>().firstWhere(
         (p) => p!.metal == AppConstants.silver && p.unit == 'g',
         orElse: () => null,
       );
 
-  MetalPrice? get silverPerKg => _prices
-      .cast<MetalPrice?>()
-      .firstWhere(
+  MetalPrice? get silverPerKg => _prices.cast<MetalPrice?>().firstWhere(
         (p) => p!.metal == AppConstants.silver && p.unit == 'kg',
         orElse: () => null,
       );

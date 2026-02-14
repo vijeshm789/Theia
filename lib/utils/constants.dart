@@ -10,8 +10,8 @@ class AppConstants {
   static const String newsBaseUrl = 'https://newsapi.org/v2';
 
   // API Keys (move to secure storage in production)
-  static const String metalPriceApiKey = 'YOUR_METAL_PRICE_API_KEY';
-  static const String newsApiKey = 'YOUR_NEWS_API_KEY';
+  static const String metalPriceApiKey = '4019bd580849f63c0354fe6cca292e7e';
+  static const String newsApiKey = '610f5606fdbb417696f09c3f617ee921';
 
   // Refresh Intervals
   static const Duration autoRefreshInterval = Duration(minutes: 5);

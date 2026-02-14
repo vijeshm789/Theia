@@ -86,7 +86,8 @@ class MetalPriceService {
     return _getMockHistory(metal, timeRange);
   }
 
-  List<MetalPrice> _buildPriceList(double goldGramPrice, double silverGramPrice) {
+  List<MetalPrice> _buildPriceList(
+      double goldGramPrice, double silverGramPrice) {
     final now = DateTime.now();
     final random = Random();
     final goldChange = (random.nextDouble() - 0.4) * 2;
@@ -187,7 +188,8 @@ class MetalPriceService {
           : now.subtract(Duration(days: days - i));
 
       currentPrice += (random.nextDouble() - 0.48) * volatility;
-      currentPrice = currentPrice.clamp(basePrice - volatility * 3, basePrice + volatility * 3);
+      currentPrice = currentPrice.clamp(
+          basePrice - volatility * 3, basePrice + volatility * 3);
 
       prices.add(PricePoint(date: date, price: currentPrice));
     }
@@ -205,6 +207,10 @@ class MetalPriceService {
         return 1;
       case '7D':
         return 7;
+      case '3D':
+        return 3;
+      case '5D':
+        return 5;
       case '1M':
         return 30;
       case '6M':

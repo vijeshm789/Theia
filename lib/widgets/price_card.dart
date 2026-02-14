@@ -130,7 +130,7 @@ class PriceCard extends StatelessWidget {
               Formatters.formatCurrency(price.price),
               style: const TextStyle(
                 color: AppTheme.textPrimary,
-                fontSize: 28,
+                fontSize: 25,
                 fontWeight: FontWeight.bold,
                 letterSpacing: -0.5,
               ),
