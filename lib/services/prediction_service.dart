@@ -1,29 +1,222 @@
+import 'dart:convert';
 import 'dart:math';
+import 'package:google_generative_ai/google_generative_ai.dart';
 import '../models/metal_price.dart';
 import '../models/prediction.dart';
+import '../utils/constants.dart';
 
 class PredictionService {
-  /// Generates AI-based price predictions.
-  /// In production, this would call a backend ML service.
-  /// Currently uses a sophisticated mock that simulates prediction behavior.
+  GenerativeModel? _model;
+
+  GenerativeModel _getModel() {
+    _model ??= GenerativeModel(
+      model: 'gemini-2.0-flash',
+      apiKey: AppConstants.geminiApiKey,
+      generationConfig: GenerationConfig(
+        temperature: 0.7,
+        maxOutputTokens: 1024,
+        responseMimeType: 'application/json',
+      ),
+    );
+    return _model!;
+  }
+
+  /// Generates AI-based price predictions using Gemini Flash.
+  /// Falls back to local algorithm if Gemini is unavailable.
   Future<PricePrediction> getPrediction({
     required String metal,
     required String window,
     required double currentPrice,
     List<PricePoint>? historicalData,
   }) async {
-    // Simulate network delay for AI processing
-    await Future.delayed(const Duration(milliseconds: 800));
+    try {
+      return await _getGeminiPrediction(
+        metal: metal,
+        window: window,
+        currentPrice: currentPrice,
+        historicalData: historicalData,
+      );
+    } catch (_) {
+      // Fallback to local algorithm if Gemini fails
+      return _generateLocalPrediction(
+        metal: metal,
+        window: window,
+        currentPrice: currentPrice,
+        historicalData: historicalData,
+      );
+    }
+  }
 
-    return _generateMockPrediction(
+  /// Call Gemini Flash for AI-powered prediction.
+  Future<PricePrediction> _getGeminiPrediction({
+    required String metal,
+    required String window,
+    required double currentPrice,
+    List<PricePoint>? historicalData,
+  }) async {
+    final model = _getModel();
+
+    // Build historical context for the prompt
+    final historyContext = _buildHistoryContext(historicalData);
+
+    final prompt = '''
+You are a precious metals market analyst AI. Analyze the following data and provide a price prediction.
+
+Metal: $metal
+Current Price: ₹${currentPrice.toStringAsFixed(2)} per gram
+Prediction Window: $window
+$historyContext
+
+Based on recent market trends, global economic factors, currency movements, central bank policies, and supply-demand dynamics, provide your prediction as JSON with exactly these fields:
+
+{
+  "predicted_price": <number - predicted price in INR per gram>,
+  "trend": "<uptrend|downtrend|stable>",
+  "confidence": <number between 0.0 and 1.0>,
+  "summary": "<2-3 sentence analysis explaining your prediction with specific market factors>"
+}
+
+Guidelines:
+- For "Next Day": price change should be within ±2% of current price, confidence 0.65-0.85
+- For "Next Week": price change should be within ±5% of current price, confidence 0.50-0.75
+- For "Next Month": price change should be within ±10% of current price, confidence 0.35-0.60
+- The summary should mention specific factors like dollar strength, inflation, geopolitics, central bank activity, or technical levels
+- Be realistic — precious metals rarely have extreme single-day moves
+''';
+
+    final response = await model.generateContent([Content.text(prompt)]);
+    final text = response.text;
+
+    if (text == null || text.isEmpty) {
+      throw Exception('Empty Gemini response');
+    }
+
+    final json = jsonDecode(text) as Map<String, dynamic>;
+
+    final predictedPrice = (json['predicted_price'] as num).toDouble();
+    final trendStr = json['trend'] as String;
+    final confidence = (json['confidence'] as num).toDouble();
+    final summary = json['summary'] as String;
+
+    final trend = switch (trendStr) {
+      'uptrend' => TrendDirection.uptrend,
+      'downtrend' => TrendDirection.downtrend,
+      _ => TrendDirection.stable,
+    };
+
+    // Generate forecast points interpolating between current and predicted
+    final forecastPoints = _generateForecastPoints(
+      currentPrice: currentPrice,
+      predictedPrice: predictedPrice,
+      window: window,
+      trend: trend,
+    );
+
+    return PricePrediction(
       metal: metal,
       window: window,
+      predictedPrice: predictedPrice,
       currentPrice: currentPrice,
-      historicalData: historicalData,
+      trend: trend,
+      confidenceLevel: confidence.clamp(0.0, 1.0),
+      summary: summary,
+      forecastPoints: forecastPoints,
+      generatedAt: DateTime.now(),
     );
   }
 
-  PricePrediction _generateMockPrediction({
+  String _buildHistoryContext(List<PricePoint>? historicalData) {
+    if (historicalData == null || historicalData.isEmpty) {
+      return 'Historical data: Not available';
+    }
+
+    // Send last 10 data points to keep prompt concise
+    final recentPoints = historicalData.length > 10
+        ? historicalData.sublist(historicalData.length - 10)
+        : historicalData;
+
+    final buffer = StringBuffer('Recent price history (INR/gram):\n');
+    for (final point in recentPoints) {
+      buffer.writeln(
+          '  ${point.date.toIso8601String().split('T').first}: ₹${point.price.toStringAsFixed(2)}');
+    }
+
+    // Add basic stats
+    final prices = historicalData.map((p) => p.price).toList();
+    final high = prices.reduce(max);
+    final low = prices.reduce(min);
+    final avg = prices.reduce((a, b) => a + b) / prices.length;
+    final firstPrice = prices.first;
+    final lastPrice = prices.last;
+    final periodChange = ((lastPrice - firstPrice) / firstPrice * 100);
+
+    buffer.writeln('Period high: ₹${high.toStringAsFixed(2)}');
+    buffer.writeln('Period low: ₹${low.toStringAsFixed(2)}');
+    buffer.writeln('Period average: ₹${avg.toStringAsFixed(2)}');
+    buffer.writeln(
+        'Period change: ${periodChange >= 0 ? '+' : ''}${periodChange.toStringAsFixed(2)}%');
+
+    return buffer.toString();
+  }
+
+  /// Generate smooth forecast points between current and predicted price.
+  List<PricePoint> _generateForecastPoints({
+    required double currentPrice,
+    required double predictedPrice,
+    required String window,
+    required TrendDirection trend,
+  }) {
+    final random = Random();
+    final now = DateTime.now();
+
+    final int numPoints;
+    final Duration interval;
+
+    switch (window) {
+      case 'Next Day':
+        numPoints = 24;
+        interval = const Duration(hours: 1);
+        break;
+      case 'Next Week':
+        numPoints = 7;
+        interval = const Duration(days: 1);
+        break;
+      case 'Next Month':
+        numPoints = 30;
+        interval = const Duration(days: 1);
+        break;
+      default:
+        numPoints = 7;
+        interval = const Duration(days: 1);
+    }
+
+    final points = <PricePoint>[];
+    final totalChange = predictedPrice - currentPrice;
+
+    for (int i = 1; i <= numPoints; i++) {
+      final progress = i / numPoints;
+      // Ease-in-out interpolation for natural look
+      final eased = progress < 0.5
+          ? 2 * progress * progress
+          : 1 - (-2 * progress + 2) * (-2 * progress + 2) / 2;
+
+      final basePrice = currentPrice + totalChange * eased;
+      // Add small noise for realistic chart
+      final noise = (random.nextDouble() - 0.5) * currentPrice * 0.002;
+      final price = i == numPoints ? predictedPrice : basePrice + noise;
+
+      points.add(PricePoint(
+        date: now.add(interval * i),
+        price: price,
+      ));
+    }
+
+    return points;
+  }
+
+  // ── Local fallback (used when Gemini is unavailable) ──
+
+  PricePrediction _generateLocalPrediction({
     required String metal,
     required String window,
     required double currentPrice,
@@ -32,7 +225,6 @@ class PredictionService {
     final random = Random();
     final now = DateTime.now();
 
-    // Calculate trend from historical data if available
     double trendBias = 0.02;
     if (historicalData != null && historicalData.length >= 2) {
       final recentPrice = historicalData.last.price;
@@ -40,7 +232,6 @@ class PredictionService {
       trendBias = (recentPrice - olderPrice) / olderPrice;
     }
 
-    // Determine prediction parameters based on window
     final int forecastPoints;
     final Duration pointInterval;
     final double volatilityMultiplier;
@@ -67,7 +258,6 @@ class PredictionService {
         volatilityMultiplier = 0.008;
     }
 
-    // Generate forecast points with trend
     final points = <PricePoint>[];
     double price = currentPrice;
     final baseVolatility = currentPrice * volatilityMultiplier;
@@ -82,10 +272,9 @@ class PredictionService {
     }
 
     final predictedPrice = points.last.price;
-    final change = predictedPrice - currentPrice;
-    final percentChange = (change / currentPrice) * 100;
+    final percentChange =
+        ((predictedPrice - currentPrice) / currentPrice) * 100;
 
-    // Determine trend direction
     TrendDirection trend;
     if (percentChange > 0.5) {
       trend = TrendDirection.uptrend;
@@ -95,7 +284,6 @@ class PredictionService {
       trend = TrendDirection.stable;
     }
 
-    // Confidence decreases with longer prediction windows
     final confidence = switch (window) {
       'Next Day' => 0.75 + random.nextDouble() * 0.15,
       'Next Week' => 0.60 + random.nextDouble() * 0.15,
@@ -103,8 +291,7 @@ class PredictionService {
       _ => 0.60,
     };
 
-    // Generate insight summary
-    final summary = _generateSummary(metal, trend, percentChange, window);
+    final summary = _generateLocalSummary(metal, trend, percentChange, window);
 
     return PricePrediction(
       metal: metal,
@@ -119,13 +306,12 @@ class PredictionService {
     );
   }
 
-  String _generateSummary(
+  String _generateLocalSummary(
     String metal,
     TrendDirection trend,
     double percentChange,
     String window,
   ) {
-    final metalLower = metal.toLowerCase();
     final absChange = percentChange.abs().toStringAsFixed(1);
 
     switch (trend) {
@@ -138,7 +324,7 @@ class PredictionService {
           'technical breakout above resistance levels',
         ];
         final reason = reasons[Random().nextInt(reasons.length)];
-        return '$metal likely to rise ~$absChange% over the $window due to $reason.';
+        return '$metal likely to rise ~$absChange% over the $window due to $reason. (Offline prediction)';
 
       case TrendDirection.downtrend:
         final reasons = [
@@ -149,11 +335,11 @@ class PredictionService {
           'technical correction from overbought levels',
         ];
         final reason = reasons[Random().nextInt(reasons.length)];
-        return '$metal may decline ~$absChange% over the $window due to $reason.';
+        return '$metal may decline ~$absChange% over the $window due to $reason. (Offline prediction)';
 
       case TrendDirection.stable:
         return '$metal expected to remain relatively stable over the $window, '
-            'with prices consolidating near current levels.';
+            'with prices consolidating near current levels. (Offline prediction)';
     }
   }
 }
