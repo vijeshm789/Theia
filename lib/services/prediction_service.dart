@@ -10,7 +10,7 @@ class PredictionService {
 
   GenerativeModel _getModel() {
     _model ??= GenerativeModel(
-      model: 'gemini-2.0-flash',
+      model: 'gemini-2.0-flash-lite',
       apiKey: AppConstants.geminiApiKey,
       generationConfig: GenerationConfig(
         temperature: 0.7,
