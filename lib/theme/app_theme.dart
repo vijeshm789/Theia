@@ -35,7 +35,7 @@ class AppTheme {
         onSurface: textPrimary,
         onError: Colors.white,
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: cardColor,
         elevation: 4,
         shadowColor: Colors.black26,

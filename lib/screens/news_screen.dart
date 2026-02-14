@@ -127,7 +127,7 @@ class _NewsScreenState extends State<NewsScreen> {
                     ),
 
                   const SliverToBoxAdapter(
-                    child: SizedBox(height: 100),
+                    child: SizedBox(height: 20),
                   ),
                 ],
               ),

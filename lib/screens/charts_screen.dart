@@ -52,7 +52,8 @@ class ChartsScreen extends StatelessWidget {
                 // Metal toggle
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 12),
                     child: Center(
                       child: MetalToggle(
                         selected: priceProvider.selectedMetal,
@@ -97,7 +98,7 @@ class ChartsScreen extends StatelessWidget {
                 ),
 
                 const SliverToBoxAdapter(
-                  child: SizedBox(height: 100),
+                  child: SizedBox(height: 20),
                 ),
               ],
             );
@@ -110,7 +111,8 @@ class ChartsScreen extends StatelessWidget {
   Widget _buildPriceSummary(MetalPriceProvider provider) {
     final isGold = provider.selectedMetal == 'Gold';
     final price = isGold ? provider.gold24k : provider.silverPerGram;
-    final accentColor = isGold ? AppTheme.primaryGold : AppTheme.secondarySilver;
+    final accentColor =
+        isGold ? AppTheme.primaryGold : AppTheme.secondarySilver;
 
     if (price == null) {
       return const Padding(
@@ -119,7 +121,8 @@ class ChartsScreen extends StatelessWidget {
       );
     }
 
-    final changeColor = price.isProfit ? AppTheme.profitGreen : AppTheme.lossRed;
+    final changeColor =
+        price.isProfit ? AppTheme.profitGreen : AppTheme.lossRed;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -275,7 +278,8 @@ class ChartsScreen extends StatelessWidget {
             children: [
               const Row(
                 children: [
-                  Icon(Icons.auto_awesome, color: Colors.orangeAccent, size: 18),
+                  Icon(Icons.auto_awesome,
+                      color: Colors.orangeAccent, size: 18),
                   SizedBox(width: 8),
                   Text(
                     'Forecast Overlay',
@@ -289,7 +293,8 @@ class ChartsScreen extends StatelessWidget {
               ),
               if (prediction != null)
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: Colors.orangeAccent.withOpacity(0.12),
                     borderRadius: BorderRadius.circular(6),

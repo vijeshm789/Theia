@@ -182,7 +182,7 @@ class _InsightsScreenState extends State<InsightsScreen> {
                 ),
 
                 const SliverToBoxAdapter(
-                  child: SizedBox(height: 100),
+                  child: SizedBox(height: 20),
                 ),
               ],
             );

@@ -17,8 +17,10 @@ class PriceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final accentColor = isGold ? AppTheme.primaryGold : AppTheme.secondarySilver;
-    final changeColor = price.isProfit ? AppTheme.profitGreen : AppTheme.lossRed;
+    final accentColor =
+        isGold ? AppTheme.primaryGold : AppTheme.secondarySilver;
+    final changeColor =
+        price.isProfit ? AppTheme.profitGreen : AppTheme.lossRed;
     final changeIcon = price.isProfit ? Icons.trending_up : Icons.trending_down;
 
     return GestureDetector(
@@ -94,34 +96,35 @@ class PriceCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: changeColor.withOpacity(0.12),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(changeIcon, color: changeColor, size: 14),
-                      const SizedBox(width: 4),
-                      Text(
-                        Formatters.formatPercentChange(price.percentChange),
-                        style: TextStyle(
-                          color: changeColor,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 10),
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 5,
+              ),
+              decoration: BoxDecoration(
+                color: changeColor.withOpacity(0.12),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(changeIcon, color: changeColor, size: 14),
+                  const SizedBox(width: 4),
+                  Text(
+                    Formatters.formatPercentChange(price.percentChange),
+                    style: TextStyle(
+                      color: changeColor,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
             // Price
             Text(
               Formatters.formatCurrency(price.price),

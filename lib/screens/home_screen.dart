@@ -52,9 +52,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: _buildSectionTitle('Live Rates'),
                   ),
                   SliverToBoxAdapter(
-                    child: priceProvider.isLoading && priceProvider.prices.isEmpty
-                        ? _buildLoadingPrices()
-                        : _buildPriceCards(priceProvider),
+                    child:
+                        priceProvider.isLoading && priceProvider.prices.isEmpty
+                            ? _buildLoadingPrices()
+                            : _buildPriceCards(priceProvider),
                   ),
                   // Quick chart
                   SliverToBoxAdapter(
@@ -76,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   // Bottom spacing
                   const SliverToBoxAdapter(
-                    child: SizedBox(height: 100),
+                    child: SizedBox(height: 20),
                   ),
                 ],
               ),
@@ -216,15 +217,13 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Expanded(
                 child: provider.silverPerGram != null
-                    ? PriceCard(
-                        price: provider.silverPerGram!, isGold: false)
+                    ? PriceCard(price: provider.silverPerGram!, isGold: false)
                     : const ShimmerPriceCard(),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: provider.silverPerKg != null
-                    ? PriceCard(
-                        price: provider.silverPerKg!, isGold: false)
+                    ? PriceCard(price: provider.silverPerKg!, isGold: false)
                     : const ShimmerPriceCard(),
               ),
             ],
