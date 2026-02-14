@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/foundation.dart';
 import '../models/metal_price.dart';
 import '../services/metal_price_service.dart';
@@ -16,7 +15,6 @@ class MetalPriceProvider extends ChangeNotifier {
   String _selectedTimeRange = '7D';
   String _selectedMetal = AppConstants.gold;
   DateTime? _lastUpdated;
-  Timer? _autoRefreshTimer;
 
   MetalPriceProvider({MetalPriceService? service})
       : _service = service ?? MetalPriceService();
@@ -71,12 +69,9 @@ class MetalPriceProvider extends ChangeNotifier {
       notifyListeners();
     }
 
-    // Fetch fresh data
+    // Fetch fresh data once on app launch
     await fetchPrices();
     await fetchHistory();
-
-    // Start auto-refresh
-    _startAutoRefresh();
   }
 
   /// Fetches the latest live prices.
@@ -140,17 +135,8 @@ class MetalPriceProvider extends ChangeNotifier {
     ]);
   }
 
-  void _startAutoRefresh() {
-    _autoRefreshTimer?.cancel();
-    _autoRefreshTimer = Timer.periodic(
-      AppConstants.autoRefreshInterval,
-      (_) => fetchPrices(),
-    );
-  }
-
   @override
   void dispose() {
-    _autoRefreshTimer?.cancel();
     super.dispose();
   }
 }
