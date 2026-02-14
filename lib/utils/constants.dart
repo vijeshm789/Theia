@@ -13,6 +13,14 @@ class AppConstants {
   static const String metalPriceApiKey = '4019bd580849f63c0354fe6cca292e7e';
   static const String newsApiKey = '610f5606fdbb417696f09c3f617ee921';
 
+  // Shopify Storefront API
+  static const String shopifyStoreDomain = 'YOUR_STORE.myshopify.com';
+  static const String shopifyStorefrontAccessToken = 'YOUR_STOREFRONT_ACCESS_TOKEN';
+
+  // Cache Keys - Auth
+  static const String cachedAccessTokenKey = 'shopify_access_token';
+  static const String cachedCustomerIdKey = 'shopify_customer_id';
+
   // Refresh Intervals
   static const Duration autoRefreshInterval = Duration(minutes: 5);
   static const Duration newsRefreshInterval = Duration(minutes: 15);

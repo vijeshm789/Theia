@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'app.dart';
+import 'providers/auth_provider.dart';
 import 'providers/metal_price_provider.dart';
 import 'providers/news_provider.dart';
 import 'providers/prediction_provider.dart';
@@ -18,6 +19,7 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => MetalPriceProvider()),
         ChangeNotifierProvider(create: (_) => NewsProvider()),
         ChangeNotifierProvider(create: (_) => PredictionProvider()),

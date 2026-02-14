@@ -1,13 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'providers/auth_provider.dart';
 import 'screens/home_screen.dart';
 import 'screens/charts_screen.dart';
 import 'screens/news_screen.dart';
 import 'screens/insights_screen.dart';
+import 'screens/login_screen.dart';
 import 'theme/app_theme.dart';
 
-class TheiaApp extends StatelessWidget {
+class TheiaApp extends StatefulWidget {
   const TheiaApp({super.key});
+
+  @override
+  State<TheiaApp> createState() => _TheiaAppState();
+}
+
+class _TheiaAppState extends State<TheiaApp> {
+  @override
+  void initState() {
+    super.initState();
+    // Check for existing session on app start
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<AuthProvider>().initialize();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +40,27 @@ class TheiaApp extends StatelessWidget {
       title: 'Theia',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
-      home: const MainNavigation(),
+      home: Consumer<AuthProvider>(
+        builder: (context, auth, _) {
+          // Show splash while checking auth
+          if (!auth.isInitialized) {
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(
+                  color: AppTheme.primaryGold,
+                ),
+              ),
+            );
+          }
+
+          // Gate: only logged-in users can access the app
+          if (auth.isLoggedIn) {
+            return const MainNavigation();
+          }
+
+          return const LoginScreen();
+        },
+      ),
     );
   }
 }
