@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import '../theme/app_theme.dart';
 import '../utils/constants.dart';
+import 'forgot_password_screen.dart';
 import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -134,7 +135,32 @@ class _LoginScreenState extends State<LoginScreen> {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 8),
+
+                      // Forgot password link
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: GestureDetector(
+                          onTap: () {
+                            auth.clearError();
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    const ForgotPasswordScreen(),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Forgot Password?',
+                            style: TextStyle(
+                              color: AppTheme.primaryGold,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
 
                       // Error message
                       if (auth.error != null)

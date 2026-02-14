@@ -7,6 +7,7 @@ import 'screens/charts_screen.dart';
 import 'screens/news_screen.dart';
 import 'screens/insights_screen.dart';
 import 'screens/login_screen.dart';
+import 'screens/profile_screen.dart';
 import 'theme/app_theme.dart';
 
 class TheiaApp extends StatefulWidget {
@@ -80,6 +81,7 @@ class _MainNavigationState extends State<MainNavigation> {
     ChartsScreen(),
     NewsScreen(),
     InsightsScreen(),
+    ProfileScreen(),
   ];
 
   @override
@@ -129,6 +131,12 @@ class _MainNavigationState extends State<MainNavigation> {
                   label: 'Insights',
                   isSelected: _currentIndex == 3,
                   onTap: () => _onTabTapped(3),
+                ),
+                _NavItem(
+                  icon: Icons.person_rounded,
+                  label: 'Profile',
+                  isSelected: _currentIndex == 4,
+                  onTap: () => _onTabTapped(4),
                 ),
               ],
             ),

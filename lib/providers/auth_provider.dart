@@ -20,6 +20,7 @@ class AuthProvider extends ChangeNotifier {
   bool get isLoggedIn => _isLoggedIn;
   bool get isInitialized => _isInitialized;
   String? get error => _error;
+  String? get accessToken => _accessToken;
   CustomerInfo? get customer => _customer;
 
   /// Check for an existing session on app start.
@@ -36,8 +37,9 @@ class AuthProvider extends ChangeNotifier {
         if (isValid) {
           _accessToken = token;
           _isLoggedIn = true;
+          // Fetch customer profile
+          _customer = await _service.fetchCustomer(token);
         } else {
-          // Token expired — clear it
           await prefs.remove(AppConstants.cachedAccessTokenKey);
         }
       }
@@ -104,6 +106,77 @@ class AuthProvider extends ChangeNotifier {
       _error = null;
       await _saveToken(result.accessToken!);
     } else {
+      _error = result.error;
+    }
+
+    _isLoading = false;
+    notifyListeners();
+    return result.isSuccess;
+  }
+
+  /// Update the customer's profile.
+  Future<bool> updateProfile({
+    required String firstName,
+    required String lastName,
+    String? phone,
+  }) async {
+    if (_accessToken == null) return false;
+
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+
+    final result = await _service.updateCustomer(
+      accessToken: _accessToken!,
+      firstName: firstName,
+      lastName: lastName,
+      phone: phone,
+    );
+
+    if (result.isSuccess) {
+      // Refresh customer info
+      _customer = await _service.fetchCustomer(_accessToken!);
+      _error = null;
+    } else {
+      _error = result.error;
+    }
+
+    _isLoading = false;
+    notifyListeners();
+    return result.isSuccess;
+  }
+
+  /// Change the customer's password.
+  Future<bool> changePassword({required String newPassword}) async {
+    if (_accessToken == null) return false;
+
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+
+    final result = await _service.changePassword(
+      accessToken: _accessToken!,
+      newPassword: newPassword,
+    );
+
+    if (!result.isSuccess) {
+      _error = result.error;
+    }
+
+    _isLoading = false;
+    notifyListeners();
+    return result.isSuccess;
+  }
+
+  /// Send a password reset email.
+  Future<bool> recoverPassword({required String email}) async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+
+    final result = await _service.recoverPassword(email: email);
+
+    if (!result.isSuccess) {
       _error = result.error;
     }
 

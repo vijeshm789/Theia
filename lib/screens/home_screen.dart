@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/metal_price.dart';
-import '../providers/auth_provider.dart';
 import '../providers/metal_price_provider.dart';
 import '../providers/prediction_provider.dart';
 import '../theme/app_theme.dart';
@@ -117,54 +116,32 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (provider.lastUpdated != null)
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: AppTheme.surface,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.access_time,
-                        color: AppTheme.textMuted.withOpacity(0.7),
-                        size: 13,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        Formatters.formatTime(provider.lastUpdated!),
-                        style: TextStyle(
-                          color: AppTheme.textMuted.withOpacity(0.8),
-                          fontSize: 11,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              const SizedBox(width: 8),
-              GestureDetector(
-                onTap: () => context.read<AuthProvider>().logout(),
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: AppTheme.surface,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Icon(
-                    Icons.logout_rounded,
-                    color: AppTheme.textMuted,
-                    size: 18,
-                  ),
-                ),
+          if (provider.lastUpdated != null)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                color: AppTheme.surface,
+                borderRadius: BorderRadius.circular(10),
               ),
-            ],
-          ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.access_time,
+                    color: AppTheme.textMuted.withOpacity(0.7),
+                    size: 13,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    Formatters.formatTime(provider.lastUpdated!),
+                    style: TextStyle(
+                      color: AppTheme.textMuted.withOpacity(0.8),
+                      fontSize: 11,
+                    ),
+                  ),
+                ],
+              ),
+            ),
         ],
       ),
     );
