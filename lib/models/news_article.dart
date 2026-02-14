@@ -32,24 +32,6 @@ class NewsArticle {
     );
   }
 
-  factory NewsArticle.fromRss({
-    required String title,
-    required String link,
-    String? description,
-    String? source,
-    DateTime? pubDate,
-  }) {
-    return NewsArticle(
-      id: link,
-      title: title,
-      description: description,
-      source: source ?? 'Google News',
-      url: link,
-      imageUrl: null,
-      publishedAt: pubDate ?? DateTime.now(),
-    );
-  }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,
