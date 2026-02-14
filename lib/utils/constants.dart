@@ -5,18 +5,12 @@ class AppConstants {
   static const String appName = 'Theia';
   static const String appTagline = 'See the future of precious metal markets';
 
-  // API Endpoints
+  // API Endpoints (placeholder - replace with actual API keys/endpoints)
   static const String metalPriceBaseUrl = 'https://api.metalpriceapi.com/v1';
   static const String newsBaseUrl = 'https://newsapi.org/v2';
 
-  // Google News RSS (free, no API key required)
-  static const String googleNewsRssUrl = 'https://news.google.com/rss/search';
-
   // API Keys (move to secure storage in production)
-  // Metal price API key - register at metalpriceapi.com for free
   static const String metalPriceApiKey = 'YOUR_METAL_PRICE_API_KEY';
-  // NewsAPI key (optional) - Google News RSS is used as primary free source
-  // Register at newsapi.org if you want NewsAPI as a secondary source
   static const String newsApiKey = 'YOUR_NEWS_API_KEY';
 
   // Refresh Intervals
