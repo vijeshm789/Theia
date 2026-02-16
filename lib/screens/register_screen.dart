@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
@@ -79,10 +81,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      Text(
+                      const Text(
                         'Join ${AppConstants.appName} to track precious metals',
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 14,
                           color: AppTheme.textSecondary,
                         ),
@@ -96,8 +98,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             child: TextFormField(
                               controller: _firstNameController,
                               textCapitalization: TextCapitalization.words,
-                              style: const TextStyle(
-                                  color: AppTheme.textPrimary),
+                              style:
+                                  const TextStyle(color: AppTheme.textPrimary),
                               decoration: _inputDecoration(
                                 label: 'First Name',
                                 icon: Icons.person_outline,
@@ -115,8 +117,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             child: TextFormField(
                               controller: _lastNameController,
                               textCapitalization: TextCapitalization.words,
-                              style: const TextStyle(
-                                  color: AppTheme.textPrimary),
+                              style:
+                                  const TextStyle(color: AppTheme.textPrimary),
                               decoration: _inputDecoration(
                                 label: 'Last Name',
                                 icon: Icons.person_outline,
@@ -244,8 +246,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       SizedBox(
                         height: 52,
                         child: ElevatedButton(
-                          onPressed:
-                              auth.isLoading ? null : _handleRegister,
+                          onPressed: auth.isLoading ? null : _handleRegister,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppTheme.primaryGold,
                             foregroundColor: AppTheme.background,

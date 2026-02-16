@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
@@ -170,8 +172,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 decoration: InputDecoration(
                   labelText: 'Email',
                   labelStyle: const TextStyle(color: AppTheme.textMuted),
-                  prefixIcon:
-                      const Icon(Icons.email_outlined, color: AppTheme.textMuted),
+                  prefixIcon: const Icon(Icons.email_outlined,
+                      color: AppTheme.textMuted),
                   filled: true,
                   fillColor: AppTheme.cardColor,
                   border: OutlineInputBorder(
@@ -193,15 +195,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     borderSide:
                         const BorderSide(color: AppTheme.lossRed, width: 1.5),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 16),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
                     return 'Please enter your email';
                   }
-                  if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
-                      .hasMatch(value.trim())) {
+                  if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value.trim())) {
                     return 'Please enter a valid email';
                   }
                   return null;

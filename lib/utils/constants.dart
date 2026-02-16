@@ -10,12 +10,14 @@ class AppConstants {
   static const String newsBaseUrl = 'https://newsapi.org/v2';
 
   // API Keys (move to secure storage in production)
-  static const String metalPriceApiKey = '4019bd580849f63c0354fe6cca292e7e';
+  static const String metalPriceApiKey = '1a957df0e74b25156f2f4c8d96fd69dc';
   static const String newsApiKey = '610f5606fdbb417696f09c3f617ee921';
 
   // Shopify Storefront API
-  static const String shopifyStoreDomain = 'YOUR_STORE.myshopify.com';
-  static const String shopifyStorefrontAccessToken = 'YOUR_STOREFRONT_ACCESS_TOKEN';
+  static const String shopifyStoreDomain =
+      'ri-mobile-app-builder-testing.myshopify.com';
+  static const String shopifyStorefrontAccessToken =
+      'b03013d8f00ad5745db09319a8475d6e';
 
   // Cache Keys - Auth
   static const String cachedAccessTokenKey = 'shopify_access_token';

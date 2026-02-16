@@ -1,7 +1,8 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import '../models/metal_price.dart';
-import '../models/prediction.dart';
 import '../theme/app_theme.dart';
 import '../utils/formatters.dart';
 
@@ -39,7 +40,8 @@ class PriceChartWidget extends StatelessWidget {
       );
     }
 
-    final accentColor = isGold ? AppTheme.primaryGold : AppTheme.secondarySilver;
+    final accentColor =
+        isGold ? AppTheme.primaryGold : AppTheme.secondarySilver;
 
     // Build historical spots
     final historicalSpots = <FlSpot>[];
@@ -93,13 +95,16 @@ class PriceChartWidget extends StatelessWidget {
           ),
           titlesData: FlTitlesData(
             show: showLabels,
-            rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            rightTitles:
+                const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            topTitles:
+                const AxisTitles(sideTitles: SideTitles(showTitles: false)),
             bottomTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: showLabels,
                 reservedSize: 30,
-                interval: (totalPoints / 5).ceilToDouble().clamp(1, double.infinity),
+                interval:
+                    (totalPoints / 5).ceilToDouble().clamp(1, double.infinity),
                 getTitlesWidget: (value, meta) {
                   final index = value.toInt();
                   if (index < 0 || index >= historicalData.length) {

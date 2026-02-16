@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_overrides
+
 import 'package:flutter/foundation.dart';
 import '../models/metal_price.dart';
 import '../services/metal_price_service.dart';

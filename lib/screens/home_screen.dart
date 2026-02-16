@@ -1,6 +1,7 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/metal_price.dart';
 import '../providers/metal_price_provider.dart';
 import '../providers/prediction_provider.dart';
 import '../theme/app_theme.dart';
@@ -116,32 +117,32 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-          if (provider.lastUpdated != null)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              decoration: BoxDecoration(
-                color: AppTheme.surface,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.access_time,
-                    color: AppTheme.textMuted.withOpacity(0.7),
-                    size: 13,
-                  ),
-                  const SizedBox(width: 4),
-                  Text(
-                    Formatters.formatTime(provider.lastUpdated!),
-                    style: TextStyle(
-                      color: AppTheme.textMuted.withOpacity(0.8),
-                      fontSize: 11,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          // if (provider.lastUpdated != null)
+          //   Container(
+          //     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          //     decoration: BoxDecoration(
+          //       color: AppTheme.surface,
+          //       borderRadius: BorderRadius.circular(10),
+          //     ),
+          //     child: Row(
+          //       mainAxisSize: MainAxisSize.min,
+          //       children: [
+          //         Icon(
+          //           Icons.access_time,
+          //           color: AppTheme.textMuted.withOpacity(0.7),
+          //           size: 13,
+          //         ),
+          //         const SizedBox(width: 4),
+          //         Text(
+          //           Formatters.formatTime(provider.lastUpdated!),
+          //           style: TextStyle(
+          //             color: AppTheme.textMuted.withOpacity(0.8),
+          //             fontSize: 11,
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
         ],
       ),
     );
@@ -162,20 +163,20 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildLoadingPrices() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
           Row(
-            children: const [
+            children: [
               Expanded(child: ShimmerPriceCard()),
               SizedBox(width: 12),
               Expanded(child: ShimmerPriceCard()),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Row(
-            children: const [
+            children: [
               Expanded(child: ShimmerPriceCard()),
               SizedBox(width: 12),
               Expanded(child: ShimmerPriceCard()),

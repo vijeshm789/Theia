@@ -125,7 +125,6 @@ class PredictionService {
     double percentChange,
     String window,
   ) {
-    final metalLower = metal.toLowerCase();
     final absChange = percentChange.abs().toStringAsFixed(1);
 
     switch (trend) {

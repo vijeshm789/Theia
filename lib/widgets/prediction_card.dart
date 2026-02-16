@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import '../models/prediction.dart';
 import '../theme/app_theme.dart';
@@ -14,7 +16,8 @@ class PredictionCard extends StatelessWidget {
     final trendColor = _getTrendColor(prediction.trend);
     final trendIcon = _getTrendIcon(prediction.trend);
     final isGold = prediction.metal == AppConstants.gold;
-    final accentColor = isGold ? AppTheme.primaryGold : AppTheme.secondarySilver;
+    final accentColor =
+        isGold ? AppTheme.primaryGold : AppTheme.secondarySilver;
 
     return Container(
       padding: const EdgeInsets.all(20),
@@ -55,7 +58,8 @@ class PredictionCard extends StatelessWidget {
                 ],
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
                   color: trendColor.withOpacity(0.12),
                   borderRadius: BorderRadius.circular(8),

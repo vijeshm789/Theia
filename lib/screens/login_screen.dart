@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
@@ -58,16 +60,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       // Logo / Brand
-                      Icon(
+                      const Icon(
                         Icons.auto_awesome,
                         size: 64,
                         color: AppTheme.primaryGold,
                       ),
                       const SizedBox(height: 16),
-                      Text(
+                      const Text(
                         AppConstants.appName,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 36,
                           fontWeight: FontWeight.bold,
                           color: AppTheme.primaryGold,
@@ -75,10 +77,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      Text(
+                      const Text(
                         AppConstants.appTagline,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 14,
                           color: AppTheme.textSecondary,
                         ),
@@ -145,8 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             auth.clearError();
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (_) =>
-                                    const ForgotPasswordScreen(),
+                                builder: (_) => const ForgotPasswordScreen(),
                               ),
                             );
                           },

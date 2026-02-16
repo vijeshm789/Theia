@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../utils/constants.dart';
@@ -39,7 +41,8 @@ class MetalToggle extends StatelessWidget {
         curve: Curves.easeInOut,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
-          color: isSelected ? accentColor.withOpacity(0.15) : Colors.transparent,
+          color:
+              isSelected ? accentColor.withOpacity(0.15) : Colors.transparent,
           borderRadius: BorderRadius.circular(10),
           border: isSelected
               ? Border.all(color: accentColor.withOpacity(0.3), width: 1)

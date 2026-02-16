@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import '../models/metal_price.dart';
 import '../theme/app_theme.dart';
@@ -59,7 +61,7 @@ class PriceCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Icon(
-                        isGold ? Icons.stars_rounded : Icons.diamond_outlined,
+                        Icons.stars_rounded,
                         color: accentColor,
                         size: 22,
                       ),

@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
@@ -43,7 +45,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: [
                         CircleAvatar(
                           radius: 44,
-                          backgroundColor: AppTheme.primaryGold.withOpacity(0.2),
+                          backgroundColor:
+                              AppTheme.primaryGold.withOpacity(0.2),
                           child: Text(
                             _initials(customer),
                             style: const TextStyle(
@@ -124,10 +127,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final customer = auth.customer;
     final firstNameCtrl =
         TextEditingController(text: customer?.firstName ?? '');
-    final lastNameCtrl =
-        TextEditingController(text: customer?.lastName ?? '');
-    final phoneCtrl =
-        TextEditingController(text: customer?.phone ?? '');
+    final lastNameCtrl = TextEditingController(text: customer?.lastName ?? '');
+    final phoneCtrl = TextEditingController(text: customer?.phone ?? '');
     final formKey = GlobalKey<FormState>();
 
     showModalBottomSheet(
@@ -162,7 +163,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       controller: firstNameCtrl,
                       textCapitalization: TextCapitalization.words,
                       style: const TextStyle(color: AppTheme.textPrimary),
-                      decoration: _inputDecoration('First Name', Icons.person_outline),
+                      decoration:
+                          _inputDecoration('First Name', Icons.person_outline),
                       validator: (v) =>
                           (v == null || v.trim().isEmpty) ? 'Required' : null,
                     ),
@@ -171,7 +173,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       controller: lastNameCtrl,
                       textCapitalization: TextCapitalization.words,
                       style: const TextStyle(color: AppTheme.textPrimary),
-                      decoration: _inputDecoration('Last Name', Icons.person_outline),
+                      decoration:
+                          _inputDecoration('Last Name', Icons.person_outline),
                       validator: (v) =>
                           (v == null || v.trim().isEmpty) ? 'Required' : null,
                     ),
@@ -180,7 +183,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       controller: phoneCtrl,
                       keyboardType: TextInputType.phone,
                       style: const TextStyle(color: AppTheme.textPrimary),
-                      decoration: _inputDecoration('Phone (optional)', Icons.phone_outlined),
+                      decoration: _inputDecoration(
+                          'Phone (optional)', Icons.phone_outlined),
                     ),
                     const SizedBox(height: 8),
                     if (auth.error != null)
@@ -446,8 +450,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         borderRadius: BorderRadius.circular(14),
         borderSide: const BorderSide(color: AppTheme.lossRed, width: 1.5),
       ),
-      contentPadding:
-          const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
     );
   }
 }
@@ -482,9 +485,7 @@ class _ProfileTile extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: (isDestructive
-                        ? AppTheme.lossRed
-                        : AppTheme.primaryGold)
+                color: (isDestructive ? AppTheme.lossRed : AppTheme.primaryGold)
                     .withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
