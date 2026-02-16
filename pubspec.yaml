@@ -31,7 +31,7 @@ flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/images/theia_logo.png"
-  adaptive_icon_background: "#1A1A1A"
+  adaptive_icon_background: "#000000"
   adaptive_icon_foreground: "assets/images/theia_logo.png"
   web:
     generate: true
