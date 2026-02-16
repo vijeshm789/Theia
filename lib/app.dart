@@ -9,6 +9,7 @@ import 'screens/charts_screen.dart';
 import 'screens/news_screen.dart';
 import 'screens/insights_screen.dart';
 import 'screens/login_screen.dart';
+import 'screens/onboarding_screen.dart';
 import 'screens/profile_screen.dart';
 import 'theme/app_theme.dart';
 
@@ -65,6 +66,11 @@ class _TheiaAppState extends State<TheiaApp> {
                 ),
               ),
             );
+          }
+
+          // Show onboarding for first-time users
+          if (!auth.onboardingComplete) {
+            return const OnboardingScreen();
           }
 
           // Gate: only logged-in users can access the app

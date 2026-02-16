@@ -9,6 +9,7 @@ class AuthProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool _isLoggedIn = false;
   bool _isInitialized = false;
+  bool _onboardingComplete = false;
   String? _error;
   String? _accessToken;
   CustomerInfo? _customer;
@@ -19,6 +20,7 @@ class AuthProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   bool get isLoggedIn => _isLoggedIn;
   bool get isInitialized => _isInitialized;
+  bool get onboardingComplete => _onboardingComplete;
   String? get error => _error;
   String? get accessToken => _accessToken;
   CustomerInfo? get customer => _customer;
@@ -30,6 +32,7 @@ class AuthProvider extends ChangeNotifier {
 
     try {
       final prefs = await SharedPreferences.getInstance();
+      _onboardingComplete = prefs.getBool('onboarding_complete') ?? false;
       final token = prefs.getString(AppConstants.cachedAccessTokenKey);
 
       if (token != null && token.isNotEmpty) {
