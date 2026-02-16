@@ -95,27 +95,9 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                AppConstants.appName,
-                style: TextStyle(
-                  color: AppTheme.primaryGold,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 2,
-                ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                AppConstants.appTagline,
-                style: TextStyle(
-                  color: AppTheme.textMuted.withOpacity(0.7),
-                  fontSize: 12,
-                ),
-              ),
-            ],
+          Image.asset(
+            'assets/images/theia_logo.png',
+            height: 48,
           ),
           // if (provider.lastUpdated != null)
           //   Container(

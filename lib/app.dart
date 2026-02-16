@@ -47,10 +47,21 @@ class _TheiaAppState extends State<TheiaApp> {
         builder: (context, auth, _) {
           // Show splash while checking auth
           if (!auth.isInitialized) {
-            return const Scaffold(
+            return Scaffold(
+              backgroundColor: AppTheme.background,
               body: Center(
-                child: CircularProgressIndicator(
-                  color: AppTheme.primaryGold,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                      'assets/images/theia_logo.png',
+                      width: 200,
+                    ),
+                    const SizedBox(height: 32),
+                    const CircularProgressIndicator(
+                      color: AppTheme.primaryGold,
+                    ),
+                  ],
                 ),
               ),
             );

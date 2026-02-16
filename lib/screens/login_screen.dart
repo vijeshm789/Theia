@@ -60,29 +60,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       // Logo / Brand
-                      const Icon(
-                        Icons.auto_awesome,
-                        size: 64,
-                        color: AppTheme.primaryGold,
-                      ),
-                      const SizedBox(height: 16),
-                      const Text(
-                        AppConstants.appName,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 36,
-                          fontWeight: FontWeight.bold,
-                          color: AppTheme.primaryGold,
-                          letterSpacing: 2,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      const Text(
-                        AppConstants.appTagline,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: AppTheme.textSecondary,
+                      Center(
+                        child: Image.asset(
+                          'assets/images/theia_logo.png',
+                          width: 180,
                         ),
                       ),
                       const SizedBox(height: 48),

@@ -70,6 +70,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      // Logo
+                      Center(
+                        child: Image.asset(
+                          'assets/images/theia_logo.png',
+                          width: 140,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
                       // Header
                       const Text(
                         'Create Account',
